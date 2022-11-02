@@ -13,6 +13,8 @@ const Homepage = () => {
       navigate("/upload");
     } else if (e.target.name == "3DD") {
       navigate("/3DD");
+    } else if (e.target.name == "ApiTestOne") {
+      navigate("/apitest");
     }
   };
   return (
@@ -25,7 +27,11 @@ const Homepage = () => {
         <button className="homepageButton" name="3DD" onClick={handleClick}>
           Three location data
         </button>
-        <button className="homepageButton" name="ApiTestOne">
+        <button
+          className="homepageButton"
+          name="ApiTestOne"
+          onClick={handleClick}
+        >
           {" "}
           PM readind of different devices
         </button>

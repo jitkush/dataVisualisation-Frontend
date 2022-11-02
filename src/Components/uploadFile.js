@@ -56,14 +56,19 @@ const UploadFile = () => {
   return (
     <div className="uploadFile">
       {/* File Uploader */}
+
       <input
+        className="homepageButton"
         type="file"
         name="file"
         onChange={changeHandler}
         accept=".csv"
         style={{ display: "block", margin: "10px auto" }}
       />
-      <button onClick={setFileStream}>Submit</button>
+
+      <button className="homepageButton" onClick={setFileStream}>
+        Submit
+      </button>
     </div>
   );
 };
