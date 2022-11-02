@@ -4,19 +4,16 @@
 import Papa from "papaparse";
 import axios from "axios";
 import "../App.css";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const CheckApi = () => {
-  let file = null;
-
-  //define object for data transef
   const request = {
     method: "post",
     header: "Content-Type: application/json",
     url: "http://localhost:3000/getpmreading/getreadingforDevice",
     data: ["devicea", "deviceb", "devicec"],
   };
-  //function to handle file change
+
   useEffect(() => {
     axios(request)
       .then((res) => {
@@ -24,7 +21,7 @@ const CheckApi = () => {
       })
       .catch((err) => console.log(err));
   });
-  return <div className="uploadFile"></div>;
+  return <div className="uploadFile">Check console for results</div>;
 };
 
 export default CheckApi;
