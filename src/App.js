@@ -9,6 +9,7 @@ import CheckApi from "./Components/checkAPI";
 function App() {
   return (
     <>
+      <h1>Praan Assignment</h1>
       <BrowserRouter>
         <Routes>
           <Route exact path="/" element={<Homepage />} />

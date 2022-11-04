@@ -25,15 +25,14 @@ const Homepage = () => {
           Upload file
         </button>
         <button className="homepageButton" name="3DD" onClick={handleClick}>
-          Three location data
+          Charts
         </button>
         <button
           className="homepageButton"
           name="ApiTestOne"
           onClick={handleClick}
         >
-          {" "}
-          PM readind of different devices
+          PM reading of different devices
         </button>
       </div>
     </div>

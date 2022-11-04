@@ -11,6 +11,12 @@ import "../App.css";
 import axios from "axios";
 const ThreeDeviceDataChart = () => {
   const [darkMode, setdarkMode] = useState(false);
+
+  const dateConverter = (t) => {
+    let date = new Date("20" + t);
+    return Date.parse(date);
+  };
+
   //dataRef is used for storing data fetched from API
   let dataRefA = useRef();
   let dataRefB = useRef();
@@ -60,23 +66,33 @@ const ThreeDeviceDataChart = () => {
     await axios(requestA)
       .then((res) => {
         dataRefA.current = res.data;
-        console.log(dataRefA.current.sort());
+        console.log(dataRefA.current.sort((a, b) => a - b));
         //converting the data into array of array with 2 element for rendering graph for the value pm1
-        deviceDataAp1.current = dataRefA.current.map((items) => {
-          return [items.t.split(",").join(" ").split("/").join("-"), items.p1];
-        });
+        deviceDataAp1.current = dataRefA.current
+          .sort((a, b) => a - b)
+          .map((items) => {
+            let temp = dateConverter(items.t);
+            return [temp, items.p1];
+          });
         //converting the data into array of array with 2 element for rendering graph for the value pm25
-        deviceDataAp25.current = dataRefA.current.map((items) => {
-          return [items.t.split(",").join(" ").split("/").join("-"), items.p25];
-        });
+        deviceDataAp25.current = dataRefA.current
+          .sort((a, b) => a - b)
+          .map((items) => {
+            let temp = dateConverter(items.t);
+            return [temp, items.p25];
+          });
         //converting the data into array of array with 2 element for rendering graph for the value pm10
-        deviceDataAp10.current = dataRefA.current.map((items) => {
-          return [items.t.split(",").join(" ").split("/").join("-"), items.p10];
-        });
+        deviceDataAp10.current = dataRefA.current
+          .sort((a, b) => a - b)
+          .map((items) => {
+            let temp = dateConverter(items.t);
+            return [temp, items.p10];
+          });
         //Setting the data to null so that remove previous values
         dataRefA.current = null;
         //Issuing reload after data processing so that the graph can be updated
         if (reloadA === false) {
+          console.log(deviceDataAp25.current);
           setReloadA(true);
         }
       })
@@ -90,17 +106,26 @@ const ThreeDeviceDataChart = () => {
       .then((res) => {
         dataRefB.current = res.data;
         //converting the data into array of array with 2 element for rendering graph for the value pm1
-        deviceDataBp1.current = dataRefB.current.map((items) => {
-          return [items.t.split(",").join(" ").split("/").join("-"), items.p1];
-        });
+        deviceDataBp1.current = dataRefB.current
+          .sort((a, b) => a - b)
+          .map((items) => {
+            let temp = dateConverter(items.t);
+            return [temp, items.p1];
+          });
         //converting the data into array of array with 2 element for rendering graph for the value pm25
-        deviceDataBp25.current = dataRefB.current.map((items) => {
-          return [items.t.split(",").join(" ").split("/").join("-"), items.p25];
-        });
+        deviceDataBp25.current = dataRefB.current
+          .sort((a, b) => a - b)
+          .map((items) => {
+            let temp = dateConverter(items.t);
+            return [temp, items.p25];
+          });
         //converting the data into array of array with 2 element for rendering graph for the value pm10
-        deviceDataBp10.current = dataRefB.current.map((items) => {
-          return [items.t.split(",").join(" ").split("/").join("-"), items.p10];
-        });
+        deviceDataBp10.current = dataRefB.current
+          .sort((a, b) => a - b)
+          .map((items) => {
+            let temp = dateConverter(items.t);
+            return [temp, items.p10];
+          });
         //Setting the data to null so that remove previous values
         dataRefB.current = null;
         //Issuing reload after data processing so that the graph can be updated
@@ -118,17 +143,26 @@ const ThreeDeviceDataChart = () => {
       .then((res) => {
         dataRefC.current = res.data;
         //converting the data into array of array with 2 element for rendering graph for the value pm1
-        deviceDataCp1.current = dataRefC.current.map((items) => {
-          return [items.t.split(",").join(" ").split("/").join("-"), items.p1];
-        });
+        deviceDataCp1.current = dataRefC.current
+          .sort((a, b) => a - b)
+          .map((items) => {
+            let temp = dateConverter(items.t);
+            return [temp, items.p1];
+          });
         //converting the data into array of array with 2 element for rendering graph for the value pm25
-        deviceDataCp25.current = dataRefC.current.map((items) => {
-          return [items.t.split(",").join(" ").split("/").join("-"), items.p25];
-        });
+        deviceDataCp25.current = dataRefC.current
+          .sort((a, b) => a - b)
+          .map((items) => {
+            let temp = dateConverter(items.t);
+            return [temp, items.p25];
+          });
         //converting the data into array of array with 2 element for rendering graph for the value pm10
-        deviceDataCp10.current = dataRefC.current.map((items) => {
-          return [items.t.split(",").join(" ").split("/").join("-"), items.p10];
-        });
+        deviceDataCp10.current = dataRefC.current
+          .sort((a, b) => a - b)
+          .map((items) => {
+            let temp = dateConverter(items.t);
+            return [temp, items.p10];
+          });
         //Setting the data to null so that remove previous values
         dataRefC.current = null;
         //Issuing reload after data processing so that the graph can be updated
@@ -150,6 +184,7 @@ const ThreeDeviceDataChart = () => {
     chart: {
       type: "spline",
       backgroundColor: "rgba(0,0,0,0)",
+      height: (6 / 20) * 100 + "%",
     },
     colors: ["#00ccff", "#00cc33", "#ffbb1a"],
     title: {
@@ -166,11 +201,7 @@ const ThreeDeviceDataChart = () => {
         text: "time",
       },
       type: "datetime",
-      dateTimeLabelFormats: {
-        day: "%e of %b",
-        hour: "%H:%M",
-        year: "%Y",
-      },
+
       labels: {
         format: "{value:%H:%M}",
       },
@@ -198,6 +229,7 @@ const ThreeDeviceDataChart = () => {
     chart: {
       type: "spline",
       backgroundColor: "rgba(0,0,0,0)",
+      height: (6 / 20) * 100 + "%",
     },
     colors: ["#00ccff", "#00cc33", "#ffbb1a"],
     title: {
@@ -213,11 +245,7 @@ const ThreeDeviceDataChart = () => {
         text: "time",
       },
       type: "datetime",
-      dateTimeLabelFormats: {
-        day: "%e. %b",
-        hour: "%H:%M",
-        year: "%Y",
-      },
+
       labels: {
         format: "{value:%H:%M}",
       },
@@ -245,6 +273,7 @@ const ThreeDeviceDataChart = () => {
     chart: {
       type: "spline",
       backgroundColor: "rgba(0,0,0,0)",
+      height: (6 / 20) * 100 + "%",
     },
     colors: ["#00ccff", "#00cc33", "#ffbb1a"],
     title: {
@@ -260,15 +289,12 @@ const ThreeDeviceDataChart = () => {
         text: "time",
       },
       type: "datetime",
-      dateTimeLabelFormats: {
-        day: "%e. %b",
-        hour: "%H:%M",
-        year: "%Y",
-      },
+
       labels: {
         format: "{value:%H:%M}",
       },
     },
+
     series: [
       {
         name: "deviceA",
@@ -293,6 +319,7 @@ const ThreeDeviceDataChart = () => {
     chart: {
       type: "spline",
       backgroundColor: "rgba(0,0,0,0)",
+      height: (6 / 20) * 100 + "%",
     },
     colors: ["#00ccff", "#00cc33", "#ffbb1a"],
     title: {
@@ -308,11 +335,7 @@ const ThreeDeviceDataChart = () => {
         text: "time",
       },
       type: "datetime",
-      dateTimeLabelFormats: {
-        day: "%e%b%y",
-        month: "%b '%y",
-        hour: "",
-      },
+
       labels: {
         format: "{value:%H:%M}",
       },
@@ -343,20 +366,31 @@ const ThreeDeviceDataChart = () => {
   };
 
   return (
-    <div className={darkMode ? "Chart dark" : "Chart light"}>
+    <>
       <div className="buttonM">
         <button className="chartButton" onClick={setLight}>
           {darkMode ? "LightMode" : "DarkMode"}
         </button>
       </div>
-      <HighchartsReact highcharts={Highcharts} options={pmOne} />
-      <hr />
-      <HighchartsReact highcharts={Highcharts} options={pmTwoFive} />
-      <hr />
-      <HighchartsReact highcharts={Highcharts} options={pmTen} />
-      <hr />
-      <HighchartsReact highcharts={Highcharts} options={pmComparison} />
-    </div>
+      <div className={darkMode ? "Chart dark" : "Chart light"}>
+        <div>
+          <h3>pm1 comparison for three location</h3>
+          <HighchartsReact highcharts={Highcharts} options={pmOne} />
+        </div>
+        <div>
+          <h3>pm25 comparison for three location</h3>
+          <HighchartsReact highcharts={Highcharts} options={pmTwoFive} />
+        </div>
+        <div>
+          <h3>pm10 comparison for three location</h3>
+          <HighchartsReact highcharts={Highcharts} options={pmTen} />
+        </div>
+        <div>
+          <h3>pm comparision for single device</h3>
+          <HighchartsReact highcharts={Highcharts} options={pmComparison} />
+        </div>
+      </div>
+    </>
   );
 };
 export default ThreeDeviceDataChart;
