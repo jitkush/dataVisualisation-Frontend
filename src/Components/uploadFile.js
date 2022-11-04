@@ -4,10 +4,11 @@
 import Papa from "papaparse";
 import axios from "axios";
 import "../App.css";
+import { useState } from "react";
 
 const UploadFile = () => {
   let file = null;
-
+  const [upload, setUpload] = useState(false);
   //define object for data transef
   const request = {
     method: "post",
@@ -16,6 +17,7 @@ const UploadFile = () => {
   };
   //function to handle file change
   const changeHandler = (e) => {
+    setUpload(false);
     file = e.target.files[0];
   };
   //function to upload file to server
@@ -29,17 +31,21 @@ const UploadFile = () => {
       transformHeader: function (h) {
         return h.trim();
       },
+      complete: function () {
+        setUpload((prev) => !prev);
+      },
+
       //callback function that executes after processing of a chunk is complete
       chunk: (results, parser) => {
         console.log("Row data:", results.data);
         let postRequest = { ...request, data: results.data };
-        parser.pause();
+        //parser.pause();
         axios(postRequest)
           .then((res) => {
             // waiting for response from server to resume parser
             if (res.data == "OK") {
               console.log("parser resumed");
-              parser.resume();
+              // parser.resume();
             }
           })
           .catch((err) => {
@@ -56,7 +62,6 @@ const UploadFile = () => {
   return (
     <div className="uploadFile">
       {/* File Uploader */}
-
       <input
         className="homepageButton"
         type="file"
@@ -65,10 +70,11 @@ const UploadFile = () => {
         accept=".csv"
         style={{ display: "block", margin: "10px auto" }}
       />
-
       <button className="homepageButton" onClick={setFileStream}>
         Submit
       </button>
+      {upload}
+      <div className={upload ? "show" : "noShow"}>Data Upload Successfull</div>
     </div>
   );
 };
